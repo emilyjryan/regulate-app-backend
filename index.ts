@@ -19,7 +19,7 @@ app.get("/", (req: Request, res: Response) => {
 })
 
 // POST a new task:
-app.post("/tasks", async (req: Request, res: Response) => {
+app.post("/tasks/new", async (req: Request, res: Response) => {
    const newTask = new Task({
         title: 'Brush my teeth for 2 minutes',
         time: 'morning',
