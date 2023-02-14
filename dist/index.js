@@ -37,33 +37,42 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
+const cors_1 = __importDefault(require("cors"));
 const dotenv = __importStar(require("dotenv"));
 dotenv.config();
 const Task_1 = __importDefault(require("./models/Task"));
 // import db from "./models";
 const port = 8000;
 const app = (0, express_1.default)();
+app.use((0, cors_1.default)());
+app.use(express_1.default.json());
 // GET route for home:
 app.get("/", (req, res) => {
     res.send("Hello from the backend 👋🏼");
 });
 // POST a new task:
-app.post("/tasks", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.post("/tasks/new", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const newTask = new Task_1.default({
-        title: 'Brush my teeth for 2 minutes',
-        time: 'morning',
-        details: 'Brush your teeth after breakfast and before your next activity'
+        title: req.body.title,
+        time: req.body.time,
+        details: req.body.details,
     });
     const createdTask = yield newTask.save();
     res.json(createdTask);
 }));
-mongoose_1.default.connect(process.env.MONGODB_URI || `mongodb://localhost/regulate-app`).then(() => {
+const dbName = 'regulate-app';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1/' + dbName;
+mongoose_1.default.connect(MONGODB_URI, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+}).then(() => {
     app.listen(port, () => {
         console.log(`Hearing the harmonious sounds of port ${port}`);
     });
 });
 const db = mongoose_1.default.connection;
 db.once('open', () => {
+    console.log(MONGODB_URI);
     console.log(`:link: Connected to MongoDB at ${db.host}:${db.port}`);
 });
 db.on('error', err => {

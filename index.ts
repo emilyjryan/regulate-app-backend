@@ -1,5 +1,6 @@
 import express, { Express, Request, Response } from "express";
 import mongoose from "mongoose";
+import cors from 'cors';
 import * as dotenv from "dotenv";
 dotenv.config()
 
@@ -11,6 +12,7 @@ const port = 8000;
 
 const app: Express = express();
 
+app.use(cors());
 app.use(express.json())
 
 // GET route for home:
@@ -21,15 +23,21 @@ app.get("/", (req: Request, res: Response) => {
 // POST a new task:
 app.post("/tasks/new", async (req: Request, res: Response) => {
    const newTask = new Task({
-        title: 'Brush my teeth for 2 minutes',
-        time: 'morning',
-        details: 'Brush your teeth after breakfast and before your next activity'
+        title: req.body.title,
+        time: req.body.time,
+        details: req.body.details,
    });
    const createdTask = await newTask.save()
    res.json(createdTask)
 })
 
-mongoose.connect(process.env.MONGODB_URI || `mongodb://localhost/regulate-app`).then(() => {
+const dbName = 'regulate-app'
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1/' + dbName
+
+mongoose.connect(MONGODB_URI, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+}).then(() => {
     app.listen(port, () => {
         console.log(`Hearing the harmonious sounds of port ${port}`)
     });
@@ -37,6 +45,7 @@ mongoose.connect(process.env.MONGODB_URI || `mongodb://localhost/regulate-app`).
 })
 const db = mongoose.connection
 db.once('open', () => {
+    console.log(MONGODB_URI)
     console.log(`:link: Connected to MongoDB at ${db.host}:${db.port}`);
   });
 db.on('error',  err => {
