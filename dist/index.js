@@ -39,6 +39,7 @@ const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const dotenv = __importStar(require("dotenv"));
 dotenv.config();
+const Task_1 = __importDefault(require("./models/Task"));
 // import db from "./models";
 const port = 8000;
 const app = (0, express_1.default)();
@@ -48,10 +49,13 @@ app.get("/", (req, res) => {
 });
 // POST a new task:
 app.post("/tasks", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // try {
-    //     const newTask = await debugger.
-    // }
-    // res.send("Hey there 👋🏼");
+    const newTask = new Task_1.default({
+        title: 'Brush my teeth for 2 minutes',
+        time: 'morning',
+        details: 'Brush your teeth after breakfast and before your next activity'
+    });
+    const createdTask = yield newTask.save();
+    res.json(createdTask);
 }));
 mongoose_1.default.connect(process.env.MONGODB_URI || `mongodb://localhost/regulate-app`).then(() => {
     app.listen(port, () => {

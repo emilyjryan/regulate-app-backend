@@ -11,6 +11,8 @@ const port = 8000;
 
 const app: Express = express();
 
+app.use(express.json())
+
 // GET route for home:
 app.get("/", (req: Request, res: Response) => {
     res.send("Hello from the backend 👋🏼");
@@ -18,10 +20,13 @@ app.get("/", (req: Request, res: Response) => {
 
 // POST a new task:
 app.post("/tasks", async (req: Request, res: Response) => {
-    // try {
-    //     const newTask = await debugger.
-    // }
-    // res.send("Hey there 👋🏼");
+   const newTask = new Task({
+        title: 'Brush my teeth for 2 minutes',
+        time: 'morning',
+        details: 'Brush your teeth after breakfast and before your next activity'
+   });
+   const createdTask = await newTask.save()
+   res.json(createdTask)
 })
 
 mongoose.connect(process.env.MONGODB_URI || `mongodb://localhost/regulate-app`).then(() => {
