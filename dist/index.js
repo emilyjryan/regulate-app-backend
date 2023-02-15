@@ -52,9 +52,9 @@ app.get("/", (req, res) => {
 });
 // GET all tasks (schedule):
 app.get("/tasks", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const tasks = yield Task_1.default.find();
-    console.log(tasks);
+    const tasks = yield Task_1.default.find({});
     res.json(tasks);
+    console.log(tasks);
 }));
 // POST a new task:
 app.post("/tasks/new", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
