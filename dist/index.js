@@ -54,7 +54,6 @@ app.get("/", (req, res) => {
 app.get("/tasks", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const tasks = yield Task_1.default.find({});
     res.json(tasks);
-    console.log(tasks);
 }));
 // POST a new task:
 app.post("/tasks/new", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -65,6 +64,21 @@ app.post("/tasks/new", (req, res) => __awaiter(void 0, void 0, void 0, function*
     });
     const createdTask = yield newTask.save();
     res.json(createdTask);
+}));
+app.delete("/tasks/:taskId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const taskId = req.params.taskId;
+    const deletedTask = yield Task_1.default.findByIdAndDelete(taskId);
+    res.json(deletedTask);
+}));
+app.put("/tasks/complete/:taskId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const taskId = req.params.taskId;
+    const completedTask = yield Task_1.default.findByIdAndUpdate({ _id: taskId }, { completed: true });
+    res.json(completedTask);
+}));
+app.put("/tasks/undocomplete/:taskId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const taskId = req.params.taskId;
+    const undoCompletedTask = yield Task_1.default.findByIdAndUpdate({ _id: taskId }, { completed: false });
+    res.json(undoCompletedTask);
 }));
 const dbName = 'regulate-app';
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1/' + dbName;

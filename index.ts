@@ -25,7 +25,6 @@ app.get("/", (req: Request, res: Response) => {
 app.get("/tasks", async (req: Request, res: Response) => {
     const tasks = await Task.find({})
     res.json(tasks)
-    console.log(tasks)
 })
 
 // POST a new task:
@@ -37,6 +36,24 @@ app.post("/tasks/new", async (req: Request, res: Response) => {
    });
    const createdTask = await newTask.save()
    res.json(createdTask)
+})
+
+app.delete("/tasks/:taskId", async (req: Request, res: Response) => {
+    const taskId = req.params.taskId
+    const deletedTask = await Task.findByIdAndDelete(taskId);
+    res.json(deletedTask)
+})
+
+app.put("/tasks/complete/:taskId", async (req: Request, res: Response) => {
+    const taskId = req.params.taskId
+    const completedTask = await Task.findByIdAndUpdate({_id: taskId}, {completed: true})
+    res.json(completedTask)
+})
+
+app.put("/tasks/undocomplete/:taskId", async (req: Request, res: Response) => {
+    const taskId = req.params.taskId
+    const undoCompletedTask = await Task.findByIdAndUpdate({_id: taskId}, {completed: false})
+    res.json(undoCompletedTask)
 })
 
 const dbName = 'regulate-app'
