@@ -20,6 +20,14 @@ app.get("/", (req: Request, res: Response) => {
     res.send("Hello from the backend 👋🏼");
 })
 
+// GET all tasks (schedule):
+
+app.get("/tasks", async (req: Request, res: Response) => {
+    const tasks = await Task.find({})
+    res.json(tasks)
+    console.log(tasks)
+})
+
 // POST a new task:
 app.post("/tasks/new", async (req: Request, res: Response) => {
    const newTask = new Task({

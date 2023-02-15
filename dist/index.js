@@ -50,6 +50,12 @@ app.use(express_1.default.json());
 app.get("/", (req, res) => {
     res.send("Hello from the backend 👋🏼");
 });
+// GET all tasks (schedule):
+app.get("/tasks", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const tasks = yield Task_1.default.find();
+    console.log(tasks);
+    res.json(tasks);
+}));
 // POST a new task:
 app.post("/tasks/new", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const newTask = new Task_1.default({
