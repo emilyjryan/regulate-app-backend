@@ -31,8 +31,8 @@ app.get("/tasks", async (req: Request, res: Response) => {
 app.post("/tasks/new", async (req: Request, res: Response) => {
    const newTask = new Task({
         title: req.body.title,
-        time: req.body.time,
-        details: req.body.details,
+        timeOfDay: req.body.timeOfDay,
+        specificTime: req.body.specificTime,
    });
    const createdTask = await newTask.save()
    res.json(createdTask)

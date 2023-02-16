@@ -11,12 +11,13 @@ const TaskSchema = new Schema({
         type: String,
         required: true
     },
-    time: {
+    timeOfDay: {
         type: String,
         required: true
     },
-    details: {
+    specificTime: {
         type: String,
+        required: true
     },
     completed: {
         type: Boolean,

@@ -59,8 +59,8 @@ app.get("/tasks", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 app.post("/tasks/new", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const newTask = new Task_1.default({
         title: req.body.title,
-        time: req.body.time,
-        details: req.body.details,
+        timeOfDay: req.body.timeOfDay,
+        specificTime: req.body.specificTime,
     });
     const createdTask = yield newTask.save();
     res.json(createdTask);
