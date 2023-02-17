@@ -61,6 +61,7 @@ app.post("/tasks/new", (req, res) => __awaiter(void 0, void 0, void 0, function*
         title: req.body.title,
         timeOfDay: req.body.timeOfDay,
         specificTime: req.body.specificTime,
+        minutes: req.body.minutes
     });
     const createdTask = yield newTask.save();
     res.json(createdTask);
