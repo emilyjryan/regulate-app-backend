@@ -61,8 +61,8 @@ const dbName = 'regulate-app'
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1/' + dbName
 
 mongoose.connect(MONGODB_URI, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 }).then(() => {
     app.listen(port, () => {
         console.log(`Hearing the harmonious sounds of port ${port}`)
