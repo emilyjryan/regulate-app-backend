@@ -8,7 +8,7 @@ import Task from "./models/Task";
 
 // import db from "./models";
 
-const port = 8000;
+const port = process.env.PORT || 8000;
 
 const app: Express = express();
 
